@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "somfy-rts-mqtt",
+    "somfy-rts-cli",
+    "somfy-rts"
+]
+[profile.release]
+lto = true
+strip = true
+

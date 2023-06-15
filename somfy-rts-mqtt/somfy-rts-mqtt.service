@@ -1,0 +1,13 @@
+[Unit]
+Description=Somfy RTS MQTT client
+After=network-online.target
+
+[Service]
+Type=simple
+User=user
+Group=user
+ExecStart=/usr/bin/somfy-rts-mqtt -s /dev/ttyACM0 plop:example.com:1883
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
