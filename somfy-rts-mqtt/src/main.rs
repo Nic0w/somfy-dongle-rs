@@ -20,6 +20,12 @@ struct Cli {
     #[arg(value_name = "MQTT BROKER", help = "MQTT connection string in the following format: id:host:port" )]
     #[arg(value_parser = mqtt_option)]
     mqtt_opt: MqttOptions,
+
+    #[arg(short, long, value_name = "Optional username for auth on MQTT broker", default_value="")]
+    username: String,
+    
+    #[arg(short, long, value_name = "Optional password for auth on MQTT broker", default_value="")]
+    password: String,
 }
 
 fn mqtt_option(arg: &str) -> std::result::Result<MqttOptions, String> {
@@ -80,6 +86,10 @@ async fn main() -> Result<()> {
 
     let mut mqttoptions = args.mqtt_opt;
     mqttoptions.set_keep_alive(Duration::from_secs(5));
+    if !args.username.is_empty()
+    {
+        mqttoptions.set_credentials(args.username, args.password);
+    }
 
     let (client, mut eventloop) = AsyncClient::new(mqttoptions, 10);
 
@@ -92,7 +102,7 @@ async fn main() -> Result<()> {
         .await?;
 
     info!(target: "main", "Successfully set HA MQTT discovery up.");
-
+    
     while let Ok(notification) = eventloop.poll().await {
         trace!(target:"main", "Received = {:?}", notification);
 
