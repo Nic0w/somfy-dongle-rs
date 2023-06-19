@@ -1,0 +1,7 @@
+#!/sbin/openrc-run
+
+command="/opt/somfy/somfy-rts-mqtt"
+description="Somfy daemon"
+command_args="-s /dev/ttyACM0 plop:example.com:1883 -u mqtt_user -p password"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
