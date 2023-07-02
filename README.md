@@ -8,7 +8,7 @@ Normally, the dongle only works with the proprietary Enki box. This code base ai
 
 ### RTS protocol
 RTS is a proprietary radio protocol from french company Somfy, which is primarily used to command motorized rolling shutters, sun blinds, ...
-The protocol itself [has been reverse-enginerred](https://pushstack.wordpress.com/somfy-rts-protocol/) for a long time now and it has some peculiarities that make it complicated (imo) to work with : working on the 433.42MHz (instead of 443.92Mhz for most/all hardware using the 433Mhz band), it requires specific hardware.
+The protocol itself [has been reverse-enginerred](https://pushstack.wordpress.com/somfy-rts-protocol/) for a long time now and it has some peculiarities that make it complicated (imo) to work with : working on 433.42MHz (instead of 443.92Mhz for most/all hardware using the 433Mhz band), it requires specific hardware.
 There are however a large pool of ressources on the web regarding open source implementations for Arduino, Raspberry Pi, ...
 
 ### Enki's dongle
@@ -59,7 +59,7 @@ Usage is quite simple:
 
 Once launched, `somfy-rts-mqtt` will attempt to connect to the dongle, then it will enumerate the registered RTS objects.
 
-For each object, an MQTT endpoint is created: ```somfy-rts/cover/<id>/set``` 
+For each object, an MQTT endpoint is created: ```somfy-rts/cover/<id>/set``` .\
 RTS being a one-way protocol, this endpoint will serve to send commands but no acknowledgment will ever be sent.
 
 The supported commands are:
