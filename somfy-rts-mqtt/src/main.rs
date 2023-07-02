@@ -22,10 +22,10 @@ struct Cli {
     mqtt_opt: MqttOptions,
 
     #[arg(short, long, value_name = "Optional username for auth on MQTT broker", default_value="")]
-    username: String,
+    username: Option<String>,
     
     #[arg(short, long, value_name = "Optional password for auth on MQTT broker", default_value="")]
-    password: String,
+    password: Option<String>,
 }
 
 fn mqtt_option(arg: &str) -> std::result::Result<MqttOptions, String> {
@@ -85,10 +85,13 @@ async fn main() -> Result<()> {
     info!(target: "main", "Successfully initialized dongle at '{:?}'.", args.serial);
 
     let mut mqttoptions = args.mqtt_opt;
+    
     mqttoptions.set_keep_alive(Duration::from_secs(5));
-    if !args.username.is_empty()
-    {
-        mqttoptions.set_credentials(args.username, args.password);
+
+    if let Some(username) = args.username {
+        let password = args.password.unwrap_or_default();
+
+        mqttoptions.set_credentials(username, password);
     }
 
     let (client, mut eventloop) = AsyncClient::new(mqttoptions, 10);
